@@ -6,20 +6,18 @@
 /////////////////////////////////////////////////////////////////////////////////
 //ADC SETTINGS
 /////////////////////////////////////////////////////////////////////////////////
-int k = 0;
-
 #define ADC1_NUM_CHANNELS   1
 #define ADC1_BUF_DEPTH      1
 
 static adcsample_t adc_buffer[ADC1_NUM_CHANNELS * ADC1_BUF_DEPTH];
 
 static const ADCConversionGroup adcset = {
-  .circular     = 1,
+  .circular     = false,
   .num_channels = ADC1_NUM_CHANNELS,
   .end_cb       = 0,
   .error_cb     = 0,
   .cr1          = 0,
-  .cr2          = 0, //ADC_CR2_EXTEN_RISING | ADC_CR2_EXTSEL_SRC(12),
+  .cr2          = ADC_CR2_SWSTART, //ADC_CR2_EXTEN_RISING | ADC_CR2_EXTSEL_SRC(12),
   .smpr1        = ADC_SMPR1_SMP_AN10(ADC_SAMPLE_144),
   .smpr2        = 0,
   .sqr1         = ADC_SQR1_NUM_CH(ADC1_NUM_CHANNELS),
@@ -102,7 +100,6 @@ int main(void)
     {
     	if (flag == 1)
     	{
-    		chprintf(((BaseSequentialStream *)&SD7), " in \n\r");
     		adcConvert(&ADCD1, &adcset, adc_buffer, ADC1_BUF_DEPTH);
     		chprintf(((BaseSequentialStream *)&SD7), " %d \n\r", adc_buffer[0]);
     		flag = 0;
@@ -110,4 +107,3 @@ int main(void)
     	chThdSleepMilliseconds(50);
     }
 }
-
