@@ -13,8 +13,8 @@ int k = 0;
 
 static adcsample_t adc_buffer[ADC1_NUM_CHANNELS * ADC1_BUF_DEPTH];
 
-static const ADCConversionGroup adcgrpcfg1 = {
-  .circular     = false,
+static const ADCConversionGroup adcset = {
+  .circular     = 1,
   .num_channels = ADC1_NUM_CHANNELS,
   .end_cb       = 0,
   .error_cb     = 0,
@@ -103,10 +103,11 @@ int main(void)
     	if (flag == 1)
     	{
     		chprintf(((BaseSequentialStream *)&SD7), " in \n\r");
-    		adcConvert(&ADCD1, &adcgrpcfg1, adc_buffer, ADC1_BUF_DEPTH);
-    		chprintf(((BaseSequentialStream *)&SD7), " %d \n\r", adc_buffer[0] , 5);
+    		adcConvert(&ADCD1, &adcset, adc_buffer, ADC1_BUF_DEPTH);
+    		chprintf(((BaseSequentialStream *)&SD7), " %d \n\r", adc_buffer[0]);
     		flag = 0;
     	}
     	chThdSleepMilliseconds(50);
     }
 }
+
