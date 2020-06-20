@@ -54,7 +54,7 @@ void sd_set(void)
 int flag = 0;
 void extcb( EXTDriver *extp, expchannel_t channel)
 {
-	extp = extp;
+    extp = extp;
     channel = channel;
     flag = 1;
 }
@@ -83,7 +83,7 @@ static const EXTConfig extcfg = {
 
 void ext_set_and_start(void)
 {
-	extStart( &EXTD1, &extcfg );
+    extStart( &EXTD1, &extcfg );
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -91,18 +91,17 @@ void ext_set_and_start(void)
 /////////////////////////////////////////////////////////////////////////////////
 int main(void)
 {
-	chSysInit();
+    chSysInit();
     halInit();
     sd_set();
     adc_set_and_start();
     ext_set_and_start();
     while (true)
     {
-    	if (flag == 1)
-    	{
-    		adcConvert(&ADCD1, &adcset, adc_buffer, ADC1_BUF_DEPTH);
-    		chprintf(((BaseSequentialStream *)&SD7), " %d \n\r", adc_buffer[0]);
-    		flag = 0;
+        if (flag == 1) {
+            adcConvert(&ADCD1, &adcset, adc_buffer, ADC1_BUF_DEPTH);
+    	    chprintf(((BaseSequentialStream *)&SD7), " %d \n\r", adc_buffer[0]);
+    	    flag = 0;
     	}
     	chThdSleepMilliseconds(50);
     }
